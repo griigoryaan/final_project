@@ -56,3 +56,12 @@ def filter_connections(db: Session, operator_id: int, min_debt: float, max_debt:
         models.Connection.debt >= min_debt,
         models.Connection.debt <= max_debt
     ).all()
+
+def get_connection_details(db: Session, skip: int, limit: int):
+    return db.query(
+        models.Connection,
+        models.Operator.name.label("operator_name"),
+        models.Subscriber.full_name.label("subscriber_name")
+    ).join(models.Operator, models.Connection.operator_id == models.Operator.operator_id)\
+     .join(models.Subscriber, models.Connection.subscriber_id == models.Subscriber.subscriber_id)\
+     .offset(skip).limit(limit).all()

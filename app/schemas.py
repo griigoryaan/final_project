@@ -48,3 +48,11 @@ class Connection(ConnectionBase):
 
     class Config:
         orm_mode = True
+
+class ConnectionDetails(BaseModel):
+    connection: Connection
+    operator_name: str
+    subscriber_name: str
+
+    class Config:
+        orm_mode = True

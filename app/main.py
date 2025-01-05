@@ -77,3 +77,7 @@ def filter_connections(
     db: Session = Depends(get_db)
 ):
     return crud.filter_connections(db, operator_id, min_debt, max_debt)
+
+@app.get("/connections/details/", response_model=list[schemas.ConnectionDetails])
+def get_connection_details(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    return crud.get_connection_details(db, skip, limit)
