@@ -49,3 +49,10 @@ def get_connection(db: Session, connection_id: int):
 
 def get_connections(db: Session, skip: int = 0, limit: int = 10):
     return db.query(models.Connection).offset(skip).limit(limit).all()
+
+def filter_connections(db: Session, operator_id: int, min_debt: float, max_debt: float):
+    return db.query(models.Connection).filter(
+        models.Connection.operator_id == operator_id,
+        models.Connection.debt >= min_debt,
+        models.Connection.debt <= max_debt
+    ).all()

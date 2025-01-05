@@ -68,3 +68,12 @@ def read_connection(connection_id: int, db: Session = Depends(get_db)):
 @app.get("/connections/", response_model=list[schemas.Connection])
 def read_connections(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     return crud.get_connections(db, skip=skip, limit=limit)
+
+@app.get("/connections/filter/", response_model=list[schemas.Connection])
+def filter_connections(
+    operator_id: int,
+    min_debt: float = 0,
+    max_debt: float = 10000,
+    db: Session = Depends(get_db)
+):
+    return crud.filter_connections(db, operator_id, min_debt, max_debt)
