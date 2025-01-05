@@ -90,3 +90,7 @@ def update_tariff_plan(min_debt: float, new_tariff: str, db: Session = Depends(g
 @app.get("/operators/connections-count/")
 def get_connections_count(db: Session = Depends(get_db)):
     return crud.get_connections_count(db)
+
+@app.get("/connections/sorted/", response_model=list[schemas.Connection])
+def get_sorted_connections(order: str = "asc", db: Session = Depends(get_db)):
+    return crud.get_sorted_connections(db, order)

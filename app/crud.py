@@ -78,3 +78,8 @@ def get_connections_count(db: Session):
     return db.query(models.Operator.name, func.count(models.Connection.connection_id).label("connection_count"))\
         .join(models.Connection, models.Operator.operator_id == models.Connection.operator_id)\
         .group_by(models.Operator.name).all()
+
+def get_sorted_connections(db: Session, order: str):
+    if order == "desc":
+        return db.query(models.Connection).order_by(models.Connection.debt.desc()).all()
+    return db.query(models.Connection).order_by(models.Connection.debt.asc()).all()
