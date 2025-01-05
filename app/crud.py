@@ -1,5 +1,7 @@
 from sqlalchemy.orm import Session
 from app import models, schemas
+from sqlalchemy.sql import func
+
 
 # CRUD для Operator
 def create_operator(db: Session, operator: schemas.OperatorCreate):
@@ -71,3 +73,8 @@ def update_tariff_plan(db: Session, min_debt: float, new_tariff: str):
         .update({models.Connection.tariff_plan: new_tariff})
     db.commit()
     return updated_count
+
+def get_connections_count(db: Session):
+    return db.query(models.Operator.name, func.count(models.Connection.connection_id).label("connection_count"))\
+        .join(models.Connection, models.Operator.operator_id == models.Connection.operator_id)\
+        .group_by(models.Operator.name).all()

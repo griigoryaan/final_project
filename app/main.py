@@ -86,3 +86,7 @@ def get_connection_details(skip: int = 0, limit: int = 10, db: Session = Depends
 def update_tariff_plan(min_debt: float, new_tariff: str, db: Session = Depends(get_db)):
     updated_count = crud.update_tariff_plan(db, min_debt, new_tariff)
     return {"updated_connections": updated_count}
+
+@app.get("/operators/connections-count/")
+def get_connections_count(db: Session = Depends(get_db)):
+    return crud.get_connections_count(db)
