@@ -65,3 +65,9 @@ def get_connection_details(db: Session, skip: int, limit: int):
     ).join(models.Operator, models.Connection.operator_id == models.Operator.operator_id)\
      .join(models.Subscriber, models.Connection.subscriber_id == models.Subscriber.subscriber_id)\
      .offset(skip).limit(limit).all()
+
+def update_tariff_plan(db: Session, min_debt: float, new_tariff: str):
+    updated_count = db.query(models.Connection).filter(models.Connection.debt > min_debt)\
+        .update({models.Connection.tariff_plan: new_tariff})
+    db.commit()
+    return updated_count
