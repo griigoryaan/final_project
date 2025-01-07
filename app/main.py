@@ -94,3 +94,9 @@ def get_connections_count(db: Session = Depends(get_db)):
 @app.get("/connections/sorted/", response_model=list[schemas.Connection])
 def get_sorted_connections(order: str = "asc", db: Session = Depends(get_db)):
     return crud.get_sorted_connections(db, order)
+@app.post("/subscribers/{subscriber_id}/add-data")
+def add_json_data(subscriber_id: int, data: dict, db: Session = Depends(get_db)):
+    subscriber = crud.add_json_data_to_subscriber(db, subscriber_id, data)
+    if not subscriber:
+        raise HTTPException(status_code=404, detail="Subscriber not found")
+    return subscriber
