@@ -92,3 +92,10 @@ def add_json_data_to_subscriber(db: Session, subscriber_id: int, data: dict):
     db.commit()
     db.refresh(subscriber)
     return subscriber
+def search_subscribers_by_json(db: Session, query: dict):
+    sql_query = """
+        SELECT * FROM subscriber
+        WHERE additional_data::jsonb @> :query::jsonb
+    """
+    result = db.execute(sql_query, {"query": query}).fetchall()
+    return [dict(row) for row in result]
