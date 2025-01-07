@@ -83,3 +83,12 @@ def get_sorted_connections(db: Session, order: str):
     if order == "desc":
         return db.query(models.Connection).order_by(models.Connection.debt.desc()).all()
     return db.query(models.Connection).order_by(models.Connection.debt.asc()).all()
+
+def add_json_data_to_subscriber(db: Session, subscriber_id: int, data: dict):
+    subscriber = db.query(models.Subscriber).filter(models.Subscriber.subscriber_id == subscriber_id).first()
+    if not subscriber:
+        return None
+    subscriber.additional_data = data
+    db.commit()
+    db.refresh(subscriber)
+    return subscriber
