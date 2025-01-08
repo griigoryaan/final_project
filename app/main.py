@@ -100,6 +100,7 @@ def add_json_data(subscriber_id: int, data: dict, db: Session = Depends(get_db))
     if not subscriber:
         raise HTTPException(status_code=404, detail="Subscriber not found")
     return subscriber
+
 @app.get("/subscribers/search")
 def search_subscribers(query: dict, db: Session = Depends(get_db)):
     return crud.search_subscribers_by_json(db, query)

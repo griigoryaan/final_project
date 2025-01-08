@@ -92,6 +92,7 @@ def add_json_data_to_subscriber(db: Session, subscriber_id: int, data: dict):
     db.commit()
     db.refresh(subscriber)
     return subscriber
+
 def search_subscribers_by_json(db: Session, query: dict):
     sql_query = """
         SELECT * FROM subscriber
