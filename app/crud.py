@@ -99,3 +99,10 @@ def search_subscribers_by_json(db: Session, query: dict):
     """
     result = db.execute(sql_query, {"query": query}).fetchall()
     return [dict(row) for row in result]
+
+def get_connections_by_operator(db: Session, operator_id: int):
+    return (
+        db.query(models.Connection)
+        .filter(models.Connection.operator_id == operator_id)
+        .all()
+    )

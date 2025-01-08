@@ -103,3 +103,7 @@ def add_json_data(subscriber_id: int, data: dict, db: Session = Depends(get_db))
 @app.get("/subscribers/search")
 def search_subscribers(query: dict, db: Session = Depends(get_db)):
     return crud.search_subscribers_by_json(db, query)
+
+@app.get("/operators/{operator_id}/connections")
+def get_connections(operator_id: int, db: Session = Depends(get_db)):
+    return crud.get_connections_by_operator(db, operator_id)
