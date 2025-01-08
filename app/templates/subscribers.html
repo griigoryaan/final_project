@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscribers</title>
+</head>
+<body>
+    <h1>Subscribers</h1>
+    <ul>
+        {% for subscriber in subscribers %}
+        <li>{{ subscriber.full_name }} ({{ subscriber.passport_data }})</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

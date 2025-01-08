@@ -2,10 +2,17 @@ from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app import crud, models, schemas
 from app.database import Base, engine, SessionLocal
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
+from fastapi import Request
+
+
+
 
 # Создание приложения FastAPI
 app = FastAPI()
 
+templates = Jinja2Templates(directory="app/templates")
 # Инициализация базы данных
 Base.metadata.create_all(bind=engine)
 
@@ -108,3 +115,8 @@ def search_subscribers(query: dict, db: Session = Depends(get_db)):
 @app.get("/operators/{operator_id}/connections")
 def get_connections(operator_id: int, db: Session = Depends(get_db)):
     return crud.get_connections_by_operator(db, operator_id)
+
+@app.get("/subscribers/ui", response_class=HTMLResponse)
+def get_subscribers_ui(request: Request, db: Session = Depends(get_db)):
+    subscribers = crud.get_subscribers(db)
+    return templates.TemplateResponse("subscribers.html", {"request": request, "subscribers": subscribers})
